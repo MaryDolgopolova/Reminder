@@ -28,7 +28,6 @@ def set():
             mb.showerror("Ошибка!", f"Произошла ошибка: {e}")
 
 
-
 def check():
     global t
     if t:
