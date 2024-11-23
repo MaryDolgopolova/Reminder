@@ -1,3 +1,5 @@
+from math import remainder
+from os import remove
 from tkinter import *
 from tkinter import simpledialog as sd
 from tkinter import messagebox as mb
@@ -19,7 +21,7 @@ def set():
             dt = now.replace(hour=hour, minute=minute, second=0, microsecond=0)
             t = dt.timestamp()
             reminder_text = sd.askstring("Текст напоминания", "Введите текст напоминания:")
-            label.config(text=f"Напоминание установлено на: {hour:02}:{minute:02}\n с текстом: {reminder_text}")
+            label.config(text=f"Напоминание установлено на: {hour:02}:{minute:02}\n  {reminder_text}")
         except ValueError:
             mb.showerror("Ошибка", "Неверный формат времени")
         except Exception as e:
@@ -34,7 +36,9 @@ def check():
         if now >= t:
             play_snd()
             t = None
+            mb.showinfo("Внимание", "У вас новое напоминание!")
     window.after(10000, check)
+
 
 def play_snd():
     global music
