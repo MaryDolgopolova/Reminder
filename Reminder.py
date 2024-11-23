@@ -18,9 +18,12 @@ def set():
             now = datetime.datetime.now()
             dt = now.replace(hour=hour, minute=minute, second=0, microsecond=0)
             t = dt.timestamp()
-            label.config(text=f"Напоминание установлено на: {hour:02}:{minute:02}")
+            reminder_text = sd.askstring("Текст напоминания", "Введите текст напоминания:")
+            label.config(text=f"Напоминание установлено на: {hour:02}:{minute:02}\n с текстом: {reminder_text}")
         except ValueError:
             mb.showerror("Ошибка", "Неверный формат времени")
+        except Exception as e:
+            mb.showerror("Ошибка!", f"Произошла ошибка: {e}")
 
 
 
@@ -37,7 +40,7 @@ def play_snd():
     global music
     music = True
     pygame.mixer.init()
-    pygame.mixer.music.load("Artic.mp3")
+    pygame.mixer.music.load("Artik.mp3")
     pygame.mixer.music.play()
 
 def stop_music():
@@ -49,8 +52,10 @@ def stop_music():
 
 window = Tk()
 window.title("Напоминание")
+window.geometry("350x200")
+window.iconbitmap (default="reminders_6076.ico")
 
-label = Label(text="Установите напоминание", font=("Arial", 14))
+label = Label(text="Установите напоминание", font=("Comic Sans MS", 14))
 label.pack(pady=10)
 
 set_button = Button(text="Установить напоминание", command=set)
