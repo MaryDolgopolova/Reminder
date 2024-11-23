@@ -1,5 +1,3 @@
-from math import remainder
-from os import remove
 from tkinter import *
 from tkinter import simpledialog as sd
 from tkinter import messagebox as mb
@@ -11,19 +9,17 @@ t = None
 music = False  # Переменная для отслеживания проигрывания музыки
 
 def set():
-    global t
-    rem = sd.askstring("Время напоминания", "Введите время в формате ЧЧ:ММ (24-часовой формат)")
-    if rem:
+    global t, reminder_text
+    rem_time = sd.askstring("Время напоминания", "Введите время напоминания в формате ЧЧ:ММ (в 24-часовом формате):")
+    if rem_time:
         try:
-            hour = int(rem.split(":")[0])
-            minute = int(rem.split(":")[1])
+            hour = int(rem_time.split(":")[0])
+            minute = int(rem_time.split(":")[1])
             now = datetime.datetime.now()
-            dt = now.replace(hour=hour, minute=minute, second=0, microsecond=0)
+            dt = now.replace(hour=hour, minute=minute, second=0)
             t = dt.timestamp()
             reminder_text = sd.askstring("Текст напоминания", "Введите текст напоминания:")
-            label.config(text=f"Напоминание установлено на: {hour:02}:{minute:02}\n  {reminder_text}")
-        except ValueError:
-            mb.showerror("Ошибка", "Неверный формат времени")
+            label.config(text=f"Напоминание на {hour:02}:{minute:02}\n {reminder_text}")
         except Exception as e:
             mb.showerror("Ошибка!", f"Произошла ошибка: {e}")
 
@@ -35,7 +31,7 @@ def check():
         if now >= t:
             play_snd()
             t = None
-            mb.showinfo("Внимание", "У вас новое напоминание!")
+            mb.showinfo("Новое напоминание!", f"{reminder_text}")
     window.after(10000, check)
 
 
